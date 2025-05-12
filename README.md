@@ -169,3 +169,26 @@ This repository contains notes and commands related to Docker and Kubernetes.
    ```
    #
    ```
+
+1. \*\*`docker build <working-dir-with-Dockerfile>`
+
+## Introduction to Dockerfile
+
+A Dockerfile is a script containing a series of instructions to build a Docker image. It automates the process of creating containerized environments, ensuring consistency and reproducibility.
+
+### Basic Flow of a Dockerfile:
+
+1. Specify the base image.
+2. Run necessary boot scripts to the image.
+3. Define the commands to run during the container's startup.
+
+```
+# 1. Specify the base image.
+FROM alpine
+
+# 2. Run necessary boot scripts to the image.
+RUN apk add --update redis
+
+# 3. Define the commands to run during the container's startup.
+CMD ["redis-server"]
+```
