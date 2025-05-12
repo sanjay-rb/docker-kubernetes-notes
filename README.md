@@ -20,9 +20,7 @@ This repository contains notes and commands related to Docker and Kubernetes.
    ...
    ```
 
----
-
-2. **`docker run busybox echo 'Hello World!'`**
+1. **`docker run busybox echo 'Hello World!'`**
 
    _Runs BusyBox and echoes a message._
 
@@ -32,9 +30,7 @@ This repository contains notes and commands related to Docker and Kubernetes.
    Hello World!
    ```
 
----
-
-3. **`docker create hello-world`**
+1. **`docker create hello-world`**
 
    _Creates a container without starting it._
 
@@ -44,9 +40,7 @@ This repository contains notes and commands related to Docker and Kubernetes.
    a1b2c3d4e5f678901234567890abcdef1234567890abcdef1234567890abcdef
    ```
 
----
-
-4. **`docker start <container-id>`**
+1. **`docker start <container-id>`**
 
    _Starts a container (no logs are shown)._
 
@@ -56,9 +50,7 @@ This repository contains notes and commands related to Docker and Kubernetes.
    a1b2c3d4e5f6
    ```
 
----
-
-5. **`docker logs <container-id>`**
+1. **`docker logs <container-id>`**
 
    _Displays logs from a container._
 
@@ -70,9 +62,7 @@ This repository contains notes and commands related to Docker and Kubernetes.
    ...
    ```
 
----
-
-6. **`docker start -a <container-id>`**
+1. **`docker start -a <container-id>`**
 
    _Starts a container and streams its logs._
 
@@ -84,9 +74,7 @@ This repository contains notes and commands related to Docker and Kubernetes.
    ...
    ```
 
----
-
-7. **`docker ps`**
+1. **`docker ps`**
 
    _Lists currently running containers._
 
@@ -97,9 +85,7 @@ This repository contains notes and commands related to Docker and Kubernetes.
    a1b2c3d4e5f6   busybox       "echo test"  2 minutes ago    Up 2 minutes              busy_container
    ```
 
----
-
-8. **`docker ps --all`**
+1. **`docker ps --all`**
 
    _Lists all containers (including stopped)._
 
@@ -110,9 +96,7 @@ This repository contains notes and commands related to Docker and Kubernetes.
    a1b2c3d4e5f6   hello-world   "/hello"     5 minutes ago    Exited (0) 4 minutes ago    awesome_hello
    ```
 
----
-
-9. **`docker system prune`**
+1. **`docker system prune`**
 
    _Cleans up unused data._
 
@@ -132,56 +116,56 @@ This repository contains notes and commands related to Docker and Kubernetes.
    Total reclaimed space: 25.3MB
    ```
 
----
+1. **`docker stop <container-id>`**
 
-10. **`docker stop <container-id>`**
+   _Gracefully stops a container._
 
-    _Gracefully stops a container._
+   **Example Output:**
 
-    **Example Output:**
+   ```
+   a1b2c3d4e5f6
+   ```
 
-    ```
-    a1b2c3d4e5f6
-    ```
+1. **`docker kill <container-id>`**
 
----
+   _Immediately kills a container._
 
-11. **`docker kill <container-id>`**
+   **Example Output:**
 
-    _Immediately kills a container._
+   ```
+   a1b2c3d4e5f6
+   ```
 
-    **Example Output:**
+1. **`docker exec -it <container-id> <exec cmd>`**
 
-    ```
-    a1b2c3d4e5f6
-    ```
+   _Executes a command in a running container._
 
----
+   **Example Output:**
 
-12. **`docker exec -it <container-id> <exec cmd>`**
+   ```bash
+   bin
+   dev
+   etc
+   home
+   ...
+   ```
 
-    _Executes a command in a running container._
+1. **`docker exec -it <container-id> sh`**
 
-    **Example Output:**
+   _Opens a shell inside the container._
 
-    ```bash
-    bin
-    dev
-    etc
-    home
-    ...
-    ```
+   **Example Output:**
 
----
+   ```
+   #
+   ```
 
-13. **`docker exec -it <container-id> sh`**
+1. **`docker run -it busybox sh`**
 
-    _Opens a shell inside the container._
+   _Open a shell while running the new continer._
 
-    **Example Output:**
+   **Example Output:**
 
-    ```
-    #
-    ```
-
----
+   ```
+   #
+   ```
