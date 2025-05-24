@@ -6,171 +6,144 @@ This repository contains notes and commands related to Docker and Kubernetes.
 
 ## Manipulating Containers with Docker CLI
 
-1. **`docker run hello-world`**
+### `docker run hello-world`
 
-   _Runs a test container to verify Docker installation._
+Runs a test container to verify Docker installation.
 
-   **Example Output:**
+```
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+...
+```
 
-   ```
-   Hello from Docker!
-   This message shows that your installation appears to be working correctly.
-   ...
-   ```
+### `docker run busybox echo 'Hello World!'`
 
-1. **`docker run busybox echo 'Hello World!'`**
+Runs BusyBox and echoes a message.
 
-   _Runs BusyBox and echoes a message._
+```
+Hello World!
+```
 
-   **Example Output:**
+### `docker create hello-world`
 
-   ```
-   Hello World!
-   ```
+Creates a container without starting it.
 
-1. **`docker create hello-world`**
+```
+a1b2c3d4e5f678901234567890abcdef1234567890abcdef1234567890abcdef
+```
 
-   _Creates a container without starting it._
+### `docker start <container-id>`
 
-   **Example Output:**
+Starts a container (no logs are shown).
 
-   ```
-   a1b2c3d4e5f678901234567890abcdef1234567890abcdef1234567890abcdef
-   ```
+```
+a1b2c3d4e5f6
+```
 
-1. **`docker start <container-id>`**
+### `docker logs <container-id>`
 
-   _Starts a container (no logs are shown)._
+Displays logs from a container.
 
-   **Example Output:**
+```
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+...
+```
 
-   ```
-   a1b2c3d4e5f6
-   ```
+### `docker start -a <container-id>`
 
-1. **`docker logs <container-id>`**
+Starts a container and streams its logs.
 
-   _Displays logs from a container._
+```
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+...
+```
 
-   **Example Output:**
+### `docker ps`
 
-   ```
-   Hello from Docker!
-   This message shows that your installation appears to be working correctly.
-   ...
-   ```
+Lists currently running containers.
 
-1. **`docker start -a <container-id>`**
+```
+CONTAINER ID   IMAGE         COMMAND      CREATED          STATUS          PORTS     NAMES
+a1b2c3d4e5f6   busybox       "echo test"  2 minutes ago    Up 2 minutes              busy_container
+```
 
-   _Starts a container and streams its logs._
+### `docker ps --all`
 
-   **Example Output:**
+Lists all containers (including stopped).
 
-   ```
-   Hello from Docker!
-   This message shows that your installation appears to be working correctly.
-   ...
-   ```
+```
+CONTAINER ID   IMAGE         COMMAND      CREATED          STATUS                      NAMES
+a1b2c3d4e5f6   hello-world   "/hello"     5 minutes ago    Exited (0) 4 minutes ago    awesome_hello
+```
 
-1. **`docker ps`**
+### `docker system prune`
 
-   _Lists currently running containers._
+Cleans up unused data.
 
-   **Example Output:**
+```
+WARNING! This will remove:
+   - all stopped containers
+   - all networks not used by at least one container
+   - all dangling images
+   - all build cache
 
-   ```
-   CONTAINER ID   IMAGE         COMMAND      CREATED          STATUS          PORTS     NAMES
-   a1b2c3d4e5f6   busybox       "echo test"  2 minutes ago    Up 2 minutes              busy_container
-   ```
+Are you sure you want to continue? [y/N] y
+Deleted Containers:
+a1b2c3d4e5f6
 
-1. **`docker ps --all`**
+Total reclaimed space: 25.3MB
+```
 
-   _Lists all containers (including stopped)._
+### `docker stop <container-id>`
 
-   **Example Output:**
+Gracefully stops a container.
 
-   ```
-   CONTAINER ID   IMAGE         COMMAND      CREATED          STATUS                      NAMES
-   a1b2c3d4e5f6   hello-world   "/hello"     5 minutes ago    Exited (0) 4 minutes ago    awesome_hello
-   ```
+```
+a1b2c3d4e5f6
+```
 
-1. **`docker system prune`**
+### `docker kill <container-id>`
 
-   _Cleans up unused data._
+Immediately kills a container.
 
-   **Example Output:**
+```
+a1b2c3d4e5f6
+```
 
-   ```
-   WARNING! This will remove:
-     - all stopped containers
-     - all networks not used by at least one container
-     - all dangling images
-     - all build cache
+### `docker exec -it <container-id> <exec cmd>`
 
-   Are you sure you want to continue? [y/N] y
-   Deleted Containers:
-   a1b2c3d4e5f6
+Executes a command in a running container.
 
-   Total reclaimed space: 25.3MB
-   ```
+```bash
+bin
+dev
+etc
+home
+...
+```
 
-1. **`docker stop <container-id>`**
+### `docker exec -it <container-id> sh`
 
-   _Gracefully stops a container._
+Opens a shell inside the container.
 
-   **Example Output:**
+```
+#
+```
 
-   ```
-   a1b2c3d4e5f6
-   ```
+### `docker run -it busybox sh`
 
-1. **`docker kill <container-id>`**
+Open a shell while running the new continer.
 
-   _Immediately kills a container._
-
-   **Example Output:**
-
-   ```
-   a1b2c3d4e5f6
-   ```
-
-1. **`docker exec -it <container-id> <exec cmd>`**
-
-   _Executes a command in a running container._
-
-   **Example Output:**
-
-   ```bash
-   bin
-   dev
-   etc
-   home
-   ...
-   ```
-
-1. **`docker exec -it <container-id> sh`**
-
-   _Opens a shell inside the container._
-
-   **Example Output:**
-
-   ```
-   #
-   ```
-
-1. **`docker run -it busybox sh`**
-
-   _Open a shell while running the new continer._
-
-   **Example Output:**
-
-   ```
-   #
-   ```
+```
+#
+```
 
 ## Build Custom Images
 
-1. \*\*`docker build <working-dir-with-Dockerfile>`
+1. **`docker build <working-dir-with-Dockerfile>`**
+
    _Create new continer with custom instructions._
 
    **Example Output (with Buildkit):**
@@ -311,58 +284,64 @@ Absolutely! You can assign a name (or tag) to your Docker images using the follo
 
 ## Simple Project with Docker
 
-1. **Create a Web Application**
+### Create a Web Application
 
-   1. Build a simple web app using any language or framework you like.
+1. Build a simple web app using any language or framework you like.
 
-1. **Write a Dockerfile**
+### Write a Dockerfile
 
-   1. Choose a base image from [Docker Hub](https://hub.docker.com/).
-   1. **Copy your app files into the container:**  
-      Example:
-      ```dockerfile
-      COPY ./ ./
-      ```
+1. Choose a base image from [Docker Hub](https://hub.docker.com/).
+1. **Copy your app files into the container:**  
+   Example:
 
-1. **Build the Docker Image**
+   ```dockerfile
+   COPY ./ ./
+   ```
 
-   1. Run this command to build your Docker image:
-      ```
-      docker build . -t sanjoke/simplewebapp:latest
-      ```
+### Build the Docker Image
 
-1. **Run the Docker Container**
+1. Run this command to build your Docker image:
 
-   1. Start your app in a container:
-      ```
-      docker run -p 8080:5000 sanjoke/simplewebapp:latest
-      ```
-   1. **About the `-p` flag:**  
-      `-p INCOMING_PORT:CONTAINER_PORT` maps a port on your computer to the app inside the container.  
-      Example: `-p 8080:5000` lets you access the app at `localhost:8080`.
+   ```
+   docker build . -t sanjoke/simplewebapp:latest
+   ```
 
-1. **View the Web Application**
+### Run the Docker Container
 
-   1. Open your browser and go to `http://localhost:8080`.
+1. Start your app in a container:
 
-1. **Set the Working Directory**
+   ```
+   docker run -p 8080:5000 sanjoke/simplewebapp:latest
+   ```
 
-   1. **Set a working directory in your Dockerfile:**  
-      Example:
-      ```dockerfile
-      WORKDIR /home/simplewebapp
-      ```
+1. **About the `-p` flag:**  
+   `-p INCOMING_PORT:CONTAINER_PORT` maps a port on your computer to the app inside the container.  
+   Example: `-p 8080:5000` lets you access the app at `localhost:8080`.
 
-1. **Optimize Docker Builds with Caching**
-   1. If you copy all files before installing dependencies, Docker will reinstall dependencies every time any file changes:
-      ```dockerfile
-      COPY ./ ./
-      RUN pip install -r requirements.txt
-      ```
-   1. To avoid unnecessary reinstalls, copy only `requirements.txt` first, install dependencies, then copy the rest:
-      ```dockerfile
-      COPY requirements.txt ./
-      RUN pip install -r requirements.txt
-      COPY ./ ./
-      ```
-   1. This way, Docker only reinstalls dependencies if `requirements.txt` changes, making builds faster.
+### View the Web Application
+
+1. Open your browser and go to `http://localhost:8080`.
+
+### Set the Working Directory
+
+1. **Set a working directory in your Dockerfile:**  
+   Example:
+
+   ```dockerfile
+   WORKDIR /home/simplewebapp
+   ```
+
+### Optimize Docker Builds with Caching
+
+1.  If you copy all files before installing dependencies, Docker will reinstall dependencies every time any file changes:
+    ```dockerfile
+    COPY ./ ./
+    RUN pip install -r requirements.txt
+    ```
+1.  To avoid unnecessary reinstalls, copy only `requirements.txt` first, install dependencies, then copy the rest:
+    ```dockerfile
+    COPY requirements.txt ./
+    RUN pip install -r requirements.txt
+    COPY ./ ./
+    ```
+1.  This way, Docker only reinstalls dependencies if `requirements.txt` changes, making builds faster.
