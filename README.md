@@ -2,6 +2,8 @@
 
 This repository contains notes and commands related to Docker and Kubernetes.
 
+> **Note**: This repository includes references to various Dockerfiles with names formatted like `Dockerfile [notes]`. When running these on your machine, be sure to remove the square brackets (`[]`) from the filename. Docker requires the file to be named exactly `Dockerfile`, without any extensions or additional characters.
+
 ## Manipulating Containers with Docker CLI
 
 1. **`docker run hello-world`**
@@ -307,12 +309,60 @@ Absolutely! You can assign a name (or tag) to your Docker images using the follo
    - This command tags an already built image (referenced by its image ID or SHA).
    - You can use this to add or change tags for images after they are built.
 
-## Project on Docker
+## Simple Project with Docker
 
-Step:
+1. **Create a Web Application**
 
-1. Create a webapp
-1. Create a DockerFile
-1. Build a image
-1. Run image
-1. Connect webapp from our machine
+   1. Build a simple web app using any language or framework you like.
+
+1. **Write a Dockerfile**
+
+   1. Choose a base image from [Docker Hub](https://hub.docker.com/).
+   1. **Copy your app files into the container:**  
+      Example:
+      ```dockerfile
+      COPY ./ ./
+      ```
+
+1. **Build the Docker Image**
+
+   1. Run this command to build your Docker image:
+      ```
+      docker build . -t sanjoke/simplewebapp:latest
+      ```
+
+1. **Run the Docker Container**
+
+   1. Start your app in a container:
+      ```
+      docker run -p 8080:5000 sanjoke/simplewebapp:latest
+      ```
+   1. **About the `-p` flag:**  
+      `-p INCOMING_PORT:CONTAINER_PORT` maps a port on your computer to the app inside the container.  
+      Example: `-p 8080:5000` lets you access the app at `localhost:8080`.
+
+1. **View the Web Application**
+
+   1. Open your browser and go to `http://localhost:8080`.
+
+1. **Set the Working Directory**
+
+   1. **Set a working directory in your Dockerfile:**  
+      Example:
+      ```dockerfile
+      WORKDIR /home/simplewebapp
+      ```
+
+1. **Optimize Docker Builds with Caching**
+   1. If you copy all files before installing dependencies, Docker will reinstall dependencies every time any file changes:
+      ```dockerfile
+      COPY ./ ./
+      RUN pip install -r requirements.txt
+      ```
+   1. To avoid unnecessary reinstalls, copy only `requirements.txt` first, install dependencies, then copy the rest:
+      ```dockerfile
+      COPY requirements.txt ./
+      RUN pip install -r requirements.txt
+      COPY ./ ./
+      ```
+   1. This way, Docker only reinstalls dependencies if `requirements.txt` changes, making builds faster.

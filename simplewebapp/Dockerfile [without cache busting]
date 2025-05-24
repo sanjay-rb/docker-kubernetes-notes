@@ -1,0 +1,20 @@
+# We are using the official Python image from Docker Hub
+# This image is based on Alpine Linux, which is a lightweight distribution
+# that is perfect for running small applications like this one.
+FROM python:alpine 
+
+# Set the working directory inside the container
+WORKDIR /home/simplewebapp
+
+# Copy only requirements file into the container
+COPY requirements.txt ./
+
+# Install necessary system dependencies only if above file has changed
+# This helps in caching the layer and speeds up the build process
+RUN pip install -r requirements.txt
+
+# Copy the rest of the project into the container
+COPY ./ ./
+
+# Run the application
+CMD [ "python", "app.py" ]
