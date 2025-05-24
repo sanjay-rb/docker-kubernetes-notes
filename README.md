@@ -227,12 +227,12 @@ CMD ["redis-server"]
 
 ### Docker Build Flow
 
-1. FROM
+1. **FROM**
    1. Already downloaded ?
       1. Load from cache
    1. NO!
       1. Download base image
-1. RUN
+1. **RUN**
    1. Get previous image
    1. Is this instruction in cache from current image ?
       1. Load from cache
@@ -243,7 +243,7 @@ CMD ["redis-server"]
       1. Take a snapshot of temporary container
       1. Generate new image out of it
       1. Destroy temporary container
-1. CMD
+1. **CMD**
    1. Get previous image
    1. Create temporary container
    1. Perform CMD instruction on that container
