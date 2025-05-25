@@ -148,8 +148,11 @@ Create new container with custom instructions.
 
 **Example Output (with Buildkit):**
 
-```
+```sh
 docker build .
+```
+
+```
 [+] Building 7.8s (7/7) FINISHED                                                                                                      docker:desktop-linux
 => [internal] load build definition from Dockerfile                                                                                                  0.0s
 => => transferring dockerfile: 277B                                                                                                                  0.0s
@@ -174,8 +177,11 @@ docker build .
 
 **Example Output (without Buildkit):**
 
-```
+```sh
 DOCKER_BUILDKIT=0 docker build .
+```
+
+```
 DEPRECATED: The legacy builder is deprecated and will be removed in a future release.
             BuildKit is currently disabled; enable it by removing the DOCKER_BUILDKIT=0
             environment-variable.
