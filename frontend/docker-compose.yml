@@ -1,0 +1,10 @@
+services:
+  react-server:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /app/node_modules
+      - .:/app
+    ports:
+      - "3000:3000"
