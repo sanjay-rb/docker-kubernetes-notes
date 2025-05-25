@@ -525,10 +525,10 @@ services:
     - **What it does:** Automatically restarts the container if it crashes or your computer restarts.
     - **Why it matters:** Helps keep your services running without manual intervention.
     - **Options:**
-    - `no`: Never restart automatically (default).
-    - `always`: Always restart.
-    - `on-failure`: Restart only on non-zero exit codes.
-    - `unless-stopped`: Restart unless you manually stop the container.
+      - `no`: Never restart automatically (default).
+      - `always`: Always restart.
+      - `on-failure`: Restart only on non-zero exit codes.
+      - `unless-stopped`: Restart unless you manually stop the container.
 
 ## 🛠️ Manipulating Containers with `docker-compose` CLI
 
