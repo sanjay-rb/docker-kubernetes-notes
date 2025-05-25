@@ -228,29 +228,39 @@ CMD ["redis-server"]
 ### Docker Build Flow
 
 1. **FROM**
-   1. Already downloaded ?
-      1. Load from cache
-   1. NO!
-      1. Download base image
-1. **RUN**
-   1. Get previous image
-   1. Is this instruction in cache from current image ?
-      1. Load from cache
-      1. Generate new image out of it.
-   1. NO!
-      1. Create temporary container
-      1. Perform RUN instruction on that container
-      1. Take a snapshot of temporary container
-      1. Generate new image out of it
-      1. Destroy temporary container
-1. **CMD**
-   1. Get previous image
-   1. Create temporary container
-   1. Perform CMD instruction on that container
-   1. Take a snapshot of temporary container and generate new image out of it
-   1. Destroy temporary container
-1. if no more instruction
-   1. Return newly generated latest image id
+
+```mermaid
+graph TD;
+  A[Start] --> B[Process 1];
+  B --> C[Decision];
+  C -->|Yes| D[Process 2];
+  C -->|No| E[End];
+  D --> E;
+```
+
+1.  Already downloaded ?
+    1. Load from cache
+1.  NO!
+    1. Download base image
+1.  **RUN**
+    1.  Get previous image
+    1.  Is this instruction in cache from current image ?
+        1. Load from cache
+        1. Generate new image out of it.
+    1.  NO!
+        1. Create temporary container
+        1. Perform RUN instruction on that container
+        1. Take a snapshot of temporary container
+        1. Generate new image out of it
+        1. Destroy temporary container
+1.  **CMD**
+    1.  Get previous image
+    1.  Create temporary container
+    1.  Perform CMD instruction on that container
+    1.  Take a snapshot of temporary container and generate new image out of it
+    1.  Destroy temporary container
+1.  if no more instruction
+    1.  Return newly generated latest image id
 
 ### What a Image can be created from Container !?
 
