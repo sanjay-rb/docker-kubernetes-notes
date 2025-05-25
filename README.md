@@ -439,3 +439,7 @@ Absolutely! You can assign a name (or tag) to your Docker images using the follo
     COPY ./ ./
     ```
 1.  This way, Docker only reinstalls dependencies if `requirements.txt` changes, making builds faster.
+
+## Docker Compose Introduction
+
+**Docker Compose** is a tool used to define and manage **multi-container Docker applications**. It allows you to describe a set of services (containers), their configurations, networks, and volumes in a single **YAML file** (`docker-compose.yml`), making it easier to develop, test, and deploy applications.
