@@ -142,67 +142,67 @@ Open a shell while running the new continer.
 
 ## Build Custom Images
 
-1. **`docker build <working-dir-with-Dockerfile>`**
+### `docker build <working-dir-with-Dockerfile>`
 
-   _Create new continer with custom instructions._
+Create new continer with custom instructions.
 
-   **Example Output (with Buildkit):**
+**Example Output (with Buildkit):**
 
-   ```
-   docker build .
-   [+] Building 7.8s (7/7) FINISHED                                                                                                      docker:desktop-linux
-   => [internal] load build definition from Dockerfile                                                                                                  0.0s
-   => => transferring dockerfile: 277B                                                                                                                  0.0s
-   => [internal] load metadata for docker.io/library/alpine:latest                                                                                      5.7s
-   => [auth] library/alpine:pull token for registry-1.docker.io                                                                                         0.0s
-   => [internal] load .dockerignore                                                                                                                     0.0s
-   => => transferring context: 2B                                                                                                                       0.0s
-   => [1/2] FROM docker.io/library/alpine:latest@sha256:a8560b36e8b8210634f77d9f7f9efd7ffa463e380b75e2e74aff4511df3ef88c                                0.8s
-   => => resolve docker.io/library/alpine:latest@sha256:a8560b36e8b8210634f77d9f7f9efd7ffa463e380b75e2e74aff4511df3ef88c                                0.0s
-   => => sha256:6e771e15690e2fabf2332d3a3b744495411d6e0b00b2aea64419b58b0066cf81 0B / 3.99MB                                                            2.0s
-   => => extracting sha256:6e771e15690e2fabf2332d3a3b744495411d6e0b00b2aea64419b58b0066cf81                                                             0.1s
-   => [2/2] RUN apk add --update redis                                                                                                                  1.0s
-   => exporting to image                                                                                                                                0.2s
-   => => exporting layers                                                                                                                               0.2s
-   => => exporting manifest sha256:bbf11d4ef63d252300a29b6aedba0c8c90b3ebd63f38211ed9b5e68e6a68a860                                                     0.0s
-   => => exporting config sha256:3c97933bd8c21954eedac04f31baeea99bc624f1f9bcd37489793204a3bde3c0                                                       0.0s
-   => => exporting attestation manifest sha256:910ad445ce9b009cc847b2774d2e429e94f7eadb6f8d0271824340952c183eba                                         0.0s
-   => => exporting manifest list sha256:c5f7ff8e437e2a4857661b11ac459769c86058822fd2230dd09f842c9719f8d4                                                0.0s
-   => => naming to moby-dangling@sha256:c5f7ff8e437e2a4857661b11ac459769c86058822fd2230dd09f842c9719f8d4                                                0.0s
-   => => unpacking to moby-dangling@sha256:c5f7ff8e437e2a4857661b11ac459769c86058822fd2230dd09f842c9719f8d4
-   ```
+```
+docker build .
+[+] Building 7.8s (7/7) FINISHED                                                                                                      docker:desktop-linux
+=> [internal] load build definition from Dockerfile                                                                                                  0.0s
+=> => transferring dockerfile: 277B                                                                                                                  0.0s
+=> [internal] load metadata for docker.io/library/alpine:latest                                                                                      5.7s
+=> [auth] library/alpine:pull token for registry-1.docker.io                                                                                         0.0s
+=> [internal] load .dockerignore                                                                                                                     0.0s
+=> => transferring context: 2B                                                                                                                       0.0s
+=> [1/2] FROM docker.io/library/alpine:latest@sha256:a8560b36e8b8210634f77d9f7f9efd7ffa463e380b75e2e74aff4511df3ef88c                                0.8s
+=> => resolve docker.io/library/alpine:latest@sha256:a8560b36e8b8210634f77d9f7f9efd7ffa463e380b75e2e74aff4511df3ef88c                                0.0s
+=> => sha256:6e771e15690e2fabf2332d3a3b744495411d6e0b00b2aea64419b58b0066cf81 0B / 3.99MB                                                            2.0s
+=> => extracting sha256:6e771e15690e2fabf2332d3a3b744495411d6e0b00b2aea64419b58b0066cf81                                                             0.1s
+=> [2/2] RUN apk add --update redis                                                                                                                  1.0s
+=> exporting to image                                                                                                                                0.2s
+=> => exporting layers                                                                                                                               0.2s
+=> => exporting manifest sha256:bbf11d4ef63d252300a29b6aedba0c8c90b3ebd63f38211ed9b5e68e6a68a860                                                     0.0s
+=> => exporting config sha256:3c97933bd8c21954eedac04f31baeea99bc624f1f9bcd37489793204a3bde3c0                                                       0.0s
+=> => exporting attestation manifest sha256:910ad445ce9b009cc847b2774d2e429e94f7eadb6f8d0271824340952c183eba                                         0.0s
+=> => exporting manifest list sha256:c5f7ff8e437e2a4857661b11ac459769c86058822fd2230dd09f842c9719f8d4                                                0.0s
+=> => naming to moby-dangling@sha256:c5f7ff8e437e2a4857661b11ac459769c86058822fd2230dd09f842c9719f8d4                                                0.0s
+=> => unpacking to moby-dangling@sha256:c5f7ff8e437e2a4857661b11ac459769c86058822fd2230dd09f842c9719f8d4
+```
 
-   **Example Output (without Buildkit):**
+**Example Output (without Buildkit):**
 
-   ```
-   DOCKER_BUILDKIT=0 docker build .
-   DEPRECATED: The legacy builder is deprecated and will be removed in a future release.
-               BuildKit is currently disabled; enable it by removing the DOCKER_BUILDKIT=0
-               environment-variable.
+```
+DOCKER_BUILDKIT=0 docker build .
+DEPRECATED: The legacy builder is deprecated and will be removed in a future release.
+            BuildKit is currently disabled; enable it by removing the DOCKER_BUILDKIT=0
+            environment-variable.
 
-   Sending build context to Docker daemon   98.3kB
-   Step 1/3 : FROM alpine
-   latest: Pulling from library/alpine
-   Digest: sha256:a8560b36e8b8210634f77d9f7f9efd7ffa463e380b75e2e74aff4511df3ef88c
-   Status: Downloaded newer image for alpine:latest
-   ---> a8560b36e8b8
-   Step 2/3 : RUN apk add --update redis
-   ---> Running in 7eb61f293f37
-   fetch https://dl-cdn.alpinelinux.org/alpine/v3.21/main/aarch64/APKINDEX.tar.gz
-   fetch https://dl-cdn.alpinelinux.org/alpine/v3.21/community/aarch64/APKINDEX.tar.gz
-   (1/1) Installing redis (7.2.8-r0)
-   Executing redis-7.2.8-r0.pre-install
-   Executing redis-7.2.8-r0.post-install
-   Executing busybox-1.37.0-r12.trigger
-   OK: 11 MiB in 16 packages
-   ---> Removed intermediate container 7eb61f293f37
-   ---> ad87171750c2
-   Step 3/3 : CMD ["redis-server"]
-   ---> Running in fe284bc4dbca
-   ---> Removed intermediate container fe284bc4dbca
-   ---> 59801d109883
-   Successfully built 59801d109883
-   ```
+Sending build context to Docker daemon   98.3kB
+Step 1/3 : FROM alpine
+latest: Pulling from library/alpine
+Digest: sha256:a8560b36e8b8210634f77d9f7f9efd7ffa463e380b75e2e74aff4511df3ef88c
+Status: Downloaded newer image for alpine:latest
+---> a8560b36e8b8
+Step 2/3 : RUN apk add --update redis
+---> Running in 7eb61f293f37
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.21/main/aarch64/APKINDEX.tar.gz
+fetch https://dl-cdn.alpinelinux.org/alpine/v3.21/community/aarch64/APKINDEX.tar.gz
+(1/1) Installing redis (7.2.8-r0)
+Executing redis-7.2.8-r0.pre-install
+Executing redis-7.2.8-r0.post-install
+Executing busybox-1.37.0-r12.trigger
+OK: 11 MiB in 16 packages
+---> Removed intermediate container 7eb61f293f37
+---> ad87171750c2
+Step 3/3 : CMD ["redis-server"]
+---> Running in fe284bc4dbca
+---> Removed intermediate container fe284bc4dbca
+---> 59801d109883
+Successfully built 59801d109883
+```
 
 ### Introduction to Dockerfile
 
