@@ -208,7 +208,7 @@ Successfully built 59801d109883
 
 A Dockerfile is a script containing a series of instructions to build a Docker image. It automates the process of creating containerized environments, ensuring consistency and reproducibility.
 
-### Basic Flow of a Dockerfile:
+### Basic Dockerfile Blocks:
 
 1. Specify the base image.
 2. Run necessary boot scripts to the image.
@@ -227,40 +227,124 @@ CMD ["redis-server"]
 
 ### Docker Build Flow
 
-1. **FROM**
+#### FROM
+
+1. Already downloaded ?
+   1. Load from cache
+1. NO!
+   1. Download base image
+
+#### RUN
+
+1. Get previous image
+   1. Is this instruction in cache from current image ?
+      1. Load from cache
+      1. Generate new image out of it.
+   1. NO!
+      1. Create temporary container
+      1. Perform RUN instruction on that container
+      1. Take a snapshot of temporary container
+      1. Generate new image out of it
+      1. Destroy temporary container
+
+#### CMD
+
+1. Get previous image
+1. Create temporary container
+1. Perform CMD instruction on that container
+1. Take a snapshot of temporary container and generate new image out of it
+1. Destroy temporary container
+1. if no more instruction
+   1. Return newly generated latest image id
+
+#### End to End Flow
 
 ```mermaid
-graph TD;
-  A[Start] --> B[Process 1];
-  B --> C[Decision];
-  C -->|Yes| D[Process 2];
-  C -->|No| E[End];
-  D --> E;
-```
+flowchart TD
+    %% %% Dockerfile Execution Flowchart
+    %% CMD: Set command to run when container starts
 
-1.  Already downloaded ?
-    1. Load from cache
-1.  NO!
-    1. Download base image
-1.  **RUN**
-    1.  Get previous image
-    1.  Is this instruction in cache from current image ?
-        1. Load from cache
-        1. Generate new image out of it.
-    1.  NO!
-        1. Create temporary container
-        1. Perform RUN instruction on that container
-        1. Take a snapshot of temporary container
-        1. Generate new image out of it
-        1. Destroy temporary container
-1.  **CMD**
-    1.  Get previous image
-    1.  Create temporary container
-    1.  Perform CMD instruction on that container
-    1.  Take a snapshot of temporary container and generate new image out of it
-    1.  Destroy temporary container
-1.  if no more instruction
-    1.  Return newly generated latest image id
+    %% BLOCK NODES
+    START([START])
+    END([END])
+    b1[FROM: base_image_name:tag]
+    b2[Load base image from cache]
+    b3[Download base image from DockerHub]
+
+    b4[INSTRUCTIONS: RUN, COPY, ADD etc.]
+    b5[Load INSTRUCTIONS from cache]
+    b6[Create temporary container for INSTRUCTIONS]
+    b7[Perform INSTRUCTIONS on temporary container]
+    b8[Take snapshot of temporary container]
+    b9[Destroy temporary container]
+
+    b10[CMD: start_up_command_for_container]
+    b11[Load CMD from cache]
+    b12[Create temporary container for CMD]
+    b13[Set CMD as start up command for temporary container]
+    b14[Take snapshot of temporary container]
+    b15[Destroy temporary container]
+
+    %% CONDITION NODES
+    c1{Is base image cached?}
+    c2{Is INSTRUCTIONS cached from current image?}
+    c3{Are there more INSTRUCTIONS?}
+    c4{Is CMD cached from current image?}
+
+    %% RETURN NODES
+    r1[Generate & Return image: using this base image for below instructions]
+    r2[Generate & Return image: using this base image for below instructions]
+    r3[Generate & Return image: using this base image for below instructions]
+    r4[Return Final Image]
+
+
+    %% FLOW
+
+    %% FROM: Get base image
+    START --> b1
+    b1 --> c1
+    c1 -- Yes --> b2
+    c1 -- No --> b3
+    b2 --> r1
+    b3 --> r1
+
+    %% INSTRUCTIONS: RUN, COPY, ADD, etc.
+    r1 --> b4
+    b4 --> c2
+    c2 -- Yes --> b5
+    b5 --> r2
+    c2 -- No --> b6
+    b6 --> b7
+    b7 --> b8
+    b8 --> r2
+    b8 --> b9
+    r2 --> c3
+    c3 -- Yes --> b4
+
+    %% CMD: Set command to run when container starts
+    c3 -- No --> b10
+    b10 --> c4
+    c4 -- Yes --> b11
+    b11 --> r3
+    c4 -- No --> b12
+    b12 --> b13
+    b13 --> b14
+    b14 --> r3
+    b14 --> b15
+
+    %% Return final image ID
+    r3 --> r4
+    r4 --> END
+
+     %% Style the return nodes
+    class r1,r2,r3,r4 highlighted-yellow;
+
+    classDef highlighted-yellow fill:#00ffff,color:#000,font-weight:bold;
+
+    class START,END highlighted-green;
+
+    classDef highlighted-green fill:#00ff00,color:#000,font-weight:bold;
+```
 
 ### What a Image can be created from Container !?
 
