@@ -1,5 +1,5 @@
 services:
-  react-server:
+  react-app-dev:
     build:
       context: .
       dockerfile: Dockerfile.dev
@@ -8,3 +8,13 @@ services:
       - .:/app
     ports:
       - "3000:3000"
+  
+  # Not very ideal for testing, but can be used for quick checks
+  # react-app-test:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile.dev
+  #   volumes:
+  #     - /app/node_modules
+  #     - .:/app
+  #   command: npm run test
