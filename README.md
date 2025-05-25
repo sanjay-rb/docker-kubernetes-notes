@@ -4,7 +4,7 @@ This repository contains notes and commands related to Docker and Kubernetes.
 
 > **💡 Note:** This repository includes references to various Dockerfiles with names formatted like `Dockerfile [notes]`. When running these on your machine, be sure to remove the square brackets (`[]`) from the filename. Docker requires the file to be named exactly `Dockerfile`, without any extensions or additional characters.
 
-## 🛠️ Manipulating Containers with Docker CLI
+## 🛠️ Manipulating Containers with `docker` CLI
 
 ### ▶️ `docker run hello-world`
 
@@ -477,42 +477,50 @@ services:
 
 ---
 
-### 🧩 `services:`
+#### 🧩 `services:`
 
 - **What it does:** Defines a group of services (containers) that will be managed by Docker Compose.
 - **Why it matters:** Each service represents a separate container in your app (like a database or web server).
 
-  #### 🗄️ `database-server:`
+  ##### 🗄️ `database-server:`
 
   - **What it does:** This is the name of the first service (Customizable).
   - **Why it matters:** You can use this name to refer to the service in networks or from other services (e.g., in environment variables).
+  - **Referance:** We can directly refer this name in our webapp code as host, Docker will automatically convert it into database URI.
 
-    ##### 🐳 `image: redis`
+    ```js
+    const client = redis.createClient({
+      host: "database-server",
+      port: 6379,
+    });
+    ```
 
-    - **What it does:** Tells Docker to use the official **Redis image** from Docker Hub.
-    - **Why it matters:** This will pull and run a Redis server without needing a custom Dockerfile.
+  ###### 🐳 `image: redis`
 
-  #### 🖥️ `webapp-server:`
+  - **What it does:** Tells Docker to use the official **Redis image** from Docker Hub.
+  - **Why it matters:** This will pull and run a Redis server without needing a custom Dockerfile.
+
+  ##### 🖥️ `webapp-server:`
 
   - **What it does:** This is the name of the second service (Customizable).
   - **Why it matters:** This service will be your custom Node.js application.
 
-    ##### 🏗️ `build: .`
+    ###### 🏗️ `build: .`
 
     - **What it does:** Tells Docker to build an image using the `Dockerfile` in the **current directory** (`.`).
     - **Why it matters:** Instead of using a prebuilt image, this builds one from your app's source code.
 
-    ##### 🔌 `ports:`
+    ###### 🔌 `ports:`
 
     - **What it does:** Maps ports between your computer and the container.
     - **Why it matters:** This allows you to access the app running inside the container from your browser or other tools.
 
-    ##### 🔢 `- "4001:8081"`
+    ###### 🔢 `- "4001:8081"`
 
     - **What it does:** Maps **port 4001** on your computer to **port 8081** in the container.
     - **Why it matters:** You can visit `http://localhost:4001` to access the app inside the container.
 
-    ##### 🔄 `restart: always`
+    ###### 🔄 `restart: always`
 
     - **What it does:** Automatically restarts the container if it crashes or your computer restarts.
     - **Why it matters:** Helps keep your services running without manual intervention.
@@ -521,3 +529,25 @@ services:
     - `always`: Always restart.
     - `on-failure`: Restart only on non-zero exit codes.
     - `unless-stopped`: Restart unless you manually stop the container.
+
+## 🛠️ Manipulating Containers with `docker-compose` CLI
+
+### `docker-compose up`
+
+➡️ **Starts and runs all services defined in the `docker-compose.yml` file.**
+
+### `docker-compose up --build`
+
+➡️ **Builds images before starting the containers, useful when code or Dockerfile changes.**
+
+### `docker-compose up -d`
+
+➡️ **Starts all services in the background (detached mode), allowing the terminal to remain free.**
+
+### `docker-compose down`
+
+➡️ **Stops and removes all running containers, networks, and volumes created by `up`.**
+
+### `docker-compose ps`
+
+➡️ **Lists the current status of all running containers managed by Docker Compose.**
