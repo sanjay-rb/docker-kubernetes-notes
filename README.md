@@ -448,9 +448,9 @@ Absolutely! You can assign a name (or tag) to your Docker images using the follo
 
 #### ❓ Problem
 
-Imagine we have a Node.js web application that uses a Redis database to store visitor information. Both the Node.js app and Redis need to run as separate containers.
-
-But how will these two containers communicate with each other? The Node.js app needs to connect to Redis to read, write, and display data. So, how can we manage this connection between the containers?
+- **Problem**: Node.js app & Redis run in **separate containers**.
+- **Need**: Node.js must **connect to Redis** to read/write/display data.
+- **Challenge**: How to **enable communication** between these containers?
 
 #### 🚀 Solution 1
 
@@ -486,7 +486,7 @@ services:
 
   - **What it does:** This is the name of the first service (Customizable).
   - **Why it matters:** You can use this name to refer to the service in networks or from other services (e.g., in environment variables).
-  - **Referance:** We can directly refer this name in our webapp code as host, Docker will automatically convert it into database URI.
+  - **Referance:** We can directly refer this name in our webapp code as host, **_Docker will automatically convert it into database URI_**.
 
     ```js
     const client = redis.createClient({
