@@ -1,12 +1,12 @@
-# Docker & Kubernetes Notes
+# 🐳 Docker & Kubernetes Notes
 
 This repository contains notes and commands related to Docker and Kubernetes.
 
-> **Note**: This repository includes references to various Dockerfiles with names formatted like `Dockerfile [notes]`. When running these on your machine, be sure to remove the square brackets (`[]`) from the filename. Docker requires the file to be named exactly `Dockerfile`, without any extensions or additional characters.
+> **💡 Note:** This repository includes references to various Dockerfiles with names formatted like `Dockerfile [notes]`. When running these on your machine, be sure to remove the square brackets (`[]`) from the filename. Docker requires the file to be named exactly `Dockerfile`, without any extensions or additional characters.
 
-## Manipulating Containers with Docker CLI
+## 🛠️ Manipulating Containers with Docker CLI
 
-### `docker run hello-world`
+### ▶️ `docker run hello-world`
 
 Runs a test container to verify Docker installation.
 
@@ -16,7 +16,7 @@ This message shows that your installation appears to be working correctly.
 ...
 ```
 
-### `docker run busybox echo 'Hello World!'`
+### ▶️ `docker run busybox echo 'Hello World!'`
 
 Runs BusyBox and echoes a message.
 
@@ -24,7 +24,7 @@ Runs BusyBox and echoes a message.
 Hello World!
 ```
 
-### `docker create hello-world`
+### 📦 `docker create hello-world`
 
 Creates a container without starting it.
 
@@ -32,7 +32,7 @@ Creates a container without starting it.
 a1b2c3d4e5f678901234567890abcdef1234567890abcdef1234567890abcdef
 ```
 
-### `docker start <container-id>`
+### 🔼 `docker start <container-id>`
 
 Starts a container (no logs are shown).
 
@@ -40,7 +40,7 @@ Starts a container (no logs are shown).
 a1b2c3d4e5f6
 ```
 
-### `docker logs <container-id>`
+### 📜 `docker logs <container-id>`
 
 Displays logs from a container.
 
@@ -50,7 +50,7 @@ This message shows that your installation appears to be working correctly.
 ...
 ```
 
-### `docker start -a <container-id>`
+### 🔼📝 `docker start -a <container-id>`
 
 Starts a container and streams its logs.
 
@@ -60,7 +60,7 @@ This message shows that your installation appears to be working correctly.
 ...
 ```
 
-### `docker ps`
+### 📋 `docker ps`
 
 Lists currently running containers.
 
@@ -69,7 +69,7 @@ CONTAINER ID   IMAGE         COMMAND      CREATED          STATUS          PORTS
 a1b2c3d4e5f6   busybox       "echo test"  2 minutes ago    Up 2 minutes              busy_container
 ```
 
-### `docker ps --all`
+### 📋🕑 `docker ps --all`
 
 Lists all containers (including stopped).
 
@@ -78,7 +78,7 @@ CONTAINER ID   IMAGE         COMMAND      CREATED          STATUS               
 a1b2c3d4e5f6   hello-world   "/hello"     5 minutes ago    Exited (0) 4 minutes ago    awesome_hello
 ```
 
-### `docker system prune`
+### 🧹 `docker system prune`
 
 Cleans up unused data.
 
@@ -96,7 +96,7 @@ a1b2c3d4e5f6
 Total reclaimed space: 25.3MB
 ```
 
-### `docker stop <container-id>`
+### 🛑 `docker stop <container-id>`
 
 Gracefully stops a container.
 
@@ -104,7 +104,7 @@ Gracefully stops a container.
 a1b2c3d4e5f6
 ```
 
-### `docker kill <container-id>`
+### 💀 `docker kill <container-id>`
 
 Immediately kills a container.
 
@@ -112,7 +112,7 @@ Immediately kills a container.
 a1b2c3d4e5f6
 ```
 
-### `docker exec -it <container-id> <exec cmd>`
+### 🏃‍♂️ `docker exec -it <container-id> <exec cmd>`
 
 Executes a command in a running container.
 
@@ -124,7 +124,7 @@ home
 ...
 ```
 
-### `docker exec -it <container-id> sh`
+### 🐚 `docker exec -it <container-id> sh`
 
 Opens a shell inside the container.
 
@@ -132,19 +132,19 @@ Opens a shell inside the container.
 #
 ```
 
-### `docker run -it busybox sh`
+### 🐚▶️ `docker run -it busybox sh`
 
-Open a shell while running the new continer.
+Open a shell while running the new container.
 
 ```
 #
 ```
 
-## Build Custom Images
+## 🏗️ Build Custom Images
 
-### `docker build <working-dir-with-Dockerfile>`
+### 🏗️ `docker build <working-dir-with-Dockerfile>`
 
-Create new continer with custom instructions.
+Create new container with custom instructions.
 
 **Example Output (with Buildkit):**
 
@@ -204,15 +204,15 @@ Step 3/3 : CMD ["redis-server"]
 Successfully built 59801d109883
 ```
 
-### Introduction to Dockerfile
+### 📄 Introduction to Dockerfile
 
 A Dockerfile is a script containing a series of instructions to build a Docker image. It automates the process of creating containerized environments, ensuring consistency and reproducibility.
 
-### Basic Dockerfile Blocks:
+### 🧩 Basic Dockerfile Blocks:
 
-1. Specify the base image.
-2. Run necessary boot scripts to the image.
-3. Define the commands to run during the container's startup.
+1. 🏷️ Specify the base image.
+2. ⚡ Run necessary boot scripts to the image.
+3. 🏁 Define the commands to run during the container's startup.
 
 ```
 # 1. Specify the base image.
@@ -225,39 +225,39 @@ RUN apk add --update redis
 CMD ["redis-server"]
 ```
 
-### Docker Build Flow
+### 🔄 Docker Build Flow
 
-#### FROM
+#### 🏷️ FROM
 
-1. Already downloaded ?
-   1. Load from cache
-1. NO!
-   1. Download base image
+1. Already downloaded?
+   1. ✅ Load from cache
+1. ❌ NO!
+   1. ⬇️ Download base image
 
-#### RUN
-
-1. Get previous image
-   1. Is this instruction in cache from current image ?
-      1. Load from cache
-      1. Generate new image out of it.
-   1. NO!
-      1. Create temporary container
-      1. Perform RUN instruction on that container
-      1. Take a snapshot of temporary container
-      1. Generate new image out of it
-      1. Destroy temporary container
-
-#### CMD
+#### ⚡ RUN
 
 1. Get previous image
-1. Create temporary container
-1. Perform CMD instruction on that container
-1. Take a snapshot of temporary container and generate new image out of it
-1. Destroy temporary container
+   1. Is this instruction in cache from current image?
+      1. ✅ Load from cache
+      1. 🆕 Generate new image out of it.
+   1. ❌ NO!
+      1. 🏗️ Create temporary container
+      1. ⚡ Perform RUN instruction on that container
+      1. 📸 Take a snapshot of temporary container
+      1. 🆕 Generate new image out of it
+      1. 🗑️ Destroy temporary container
+
+#### 🏁 CMD
+
+1. Get previous image
+1. 🏗️ Create temporary container
+1. 🏁 Perform CMD instruction on that container
+1. 📸 Take a snapshot of temporary container and generate new image out of it
+1. 🗑️ Destroy temporary container
 1. if no more instruction
-   1. Return newly generated latest image id
+   1. 🆕 Return newly generated latest image id
 
-#### End to End Flow
+#### 🔗 End to End Flow
 
 ```mermaid
 flowchart TD
@@ -346,7 +346,7 @@ flowchart TD
     classDef highlighted-green fill:#00ff00,color:#000,font-weight:bold;
 ```
 
-### What a Image can be created from Container !?
+### 🖼️ What? An Image Can Be Created from a Container!?
 
 Yes, that's correct! You can create a new Docker image from any running container by specifying a start command (CMD).
 
@@ -356,11 +356,11 @@ To do this manually, use the following Docker CLI command:
 docker commit -c 'CMD ["redis-server"]' <CONTAINER_ID>
 ```
 
-### Can we name (or tag) Docker images?
+### 🏷️ Can We Name (or Tag) Docker Images?
 
 Absolutely! You can assign a name (or tag) to your Docker images using the following methods:
 
-1. **Tagging during build:**
+1. **🏷️ Tagging during build:**
 
    ```sh
    docker build -t sanjoke/redis:latest .
@@ -369,30 +369,30 @@ Absolutely! You can assign a name (or tag) to your Docker images using the follo
    - This command tags the image as you build it.
    - Here, `sanjoke` is your Docker Hub username, `redis` is the custom image name, and `latest` is the tag.
 
-2. **Tagging an existing image:**
+2. **🏷️ Tagging an existing image:**
    ```sh
    docker tag 9dfadec01 sanjoke/redis:latest
    ```
    - This command tags an already built image (referenced by its image ID or SHA).
    - You can use this to add or change tags for images after they are built.
 
-## Simple Project with Docker
+## 🚀 Simple Project with Docker
 
-### Create a Web Application
+### 🌐 Create a Web Application
 
 1. Build a simple web app using any language or framework you like.
 
-### Write a Dockerfile
+### 📝 Write a Dockerfile
 
 1. Choose a base image from [Docker Hub](https://hub.docker.com/).
-1. **Copy your app files into the container:**  
+1. **📦 Copy your app files into the container:**  
    Example:
 
    ```dockerfile
    COPY ./ ./
    ```
 
-### Build the Docker Image
+### 🏗️ Build the Docker Image
 
 1. Run this command to build your Docker image:
 
@@ -400,7 +400,7 @@ Absolutely! You can assign a name (or tag) to your Docker images using the follo
    docker build . -t sanjoke/simplewebapp:latest
    ```
 
-### Run the Docker Container
+### ▶️ Run the Docker Container
 
 1. Start your app in a container:
 
@@ -408,15 +408,15 @@ Absolutely! You can assign a name (or tag) to your Docker images using the follo
    docker run -p 8080:5000 sanjoke/simplewebapp:latest
    ```
 
-1. **About the `-p` flag:**  
+1. **🔌 About the `-p` flag:**  
    `-p INCOMING_PORT:CONTAINER_PORT` maps a port on your computer to the app inside the container.  
    Example: `-p 8080:5000` lets you access the app at `localhost:8080`.
 
-### View the Web Application
+### 👀 View the Web Application
 
 1. Open your browser and go to `http://localhost:8080`.
 
-### Set the Working Directory
+### 📂 Set the Working Directory
 
 1. **Set a working directory in your Dockerfile:**  
    Example:
@@ -425,7 +425,7 @@ Absolutely! You can assign a name (or tag) to your Docker images using the follo
    WORKDIR /home/simplewebapp
    ```
 
-### Optimize Docker Builds with Caching
+### ⚡ Optimize Docker Builds with Caching
 
 1.  If you copy all files before installing dependencies, Docker will reinstall dependencies every time any file changes:
     ```dockerfile
@@ -438,8 +438,100 @@ Absolutely! You can assign a name (or tag) to your Docker images using the follo
     RUN pip install -r requirements.txt
     COPY ./ ./
     ```
-1.  This way, Docker only reinstalls dependencies if `requirements.txt` changes, making builds faster.
+1.  This way, Docker only reinstalls dependencies if `requirements.txt` changes, making builds faster. 🚀
 
-## Docker Compose Introduction
+## 🧩 Docker Compose Introduction
 
 **Docker Compose** is a tool used to define and manage **multi-container Docker applications**. It allows you to describe a set of services (containers), their configurations, networks, and volumes in a single **YAML file** (`docker-compose.yml`), making it easier to develop, test, and deploy applications.
+
+### 🎯 Scenario
+
+#### ❓ Problem
+
+Imagine we have a Node.js web application that uses a Redis database to store visitor information. Both the Node.js app and Redis need to run as separate containers.
+
+But how will these two containers communicate with each other? The Node.js app needs to connect to Redis to read, write, and display data. So, how can we manage this connection between the containers?
+
+#### 🚀 Solution 1
+
+We could **manually run both containers** and configure the **networking settings ourselves** to allow them to communicate. However, this approach requires extra effort to manage and maintain the network configuration.
+
+#### 🚀 Solution 2
+
+A better approach is to use a `docker-compose.yml` file. **Docker Compose simplifies container orchestration** and automatically creates a shared network so the Node.js app and Redis container can easily connect and communicate with each other.
+
+#### 📝 Docker Compose File Explanation (Beginner Friendly)
+
+This document explains each line of the following `docker-compose.yml` file:
+
+```yaml
+services:
+  redis-server:
+    image: redis
+  node-app:
+    build: .
+    ports:
+      - "4001:8081"
+    restart: always
+```
+
+---
+
+#### 🧩 `services:`
+
+- **What it does:** Defines a group of services (containers) that will be managed by Docker Compose.
+- **Why it matters:** Each service represents a separate container in your app (like a database or web server).
+
+---
+
+#### 🗄️ `redis-server:`
+
+- **What it does:** This is the name of the first service (Customizable).
+- **Why it matters:** You can use this name to refer to the service in networks or from other services (e.g., in environment variables).
+
+---
+
+#### 🐳 `image: redis`
+
+- **What it does:** Tells Docker to use the official **Redis image** from Docker Hub.
+- **Why it matters:** This will pull and run a Redis server without needing a custom Dockerfile.
+
+---
+
+#### 🖥️ `node-app:`
+
+- **What it does:** This is the name of the second service (Customizable).
+- **Why it matters:** This service will be your custom Node.js application.
+
+---
+
+#### 🏗️ `build: .`
+
+- **What it does:** Tells Docker to build an image using the `Dockerfile` in the **current directory** (`.`).
+- **Why it matters:** Instead of using a prebuilt image, this builds one from your app's source code.
+
+---
+
+#### 🔌 `ports:`
+
+- **What it does:** Maps ports between your computer and the container.
+- **Why it matters:** This allows you to access the app running inside the container from your browser or other tools.
+
+---
+
+#### 🔢 `- "4001:8081"`
+
+- **What it does:** Maps **port 4001** on your computer to **port 8081** in the container.
+- **Why it matters:** You can visit `http://localhost:4001` to access the app inside the container.
+
+---
+
+#### 🔄 `restart: always`
+
+- **What it does:** Automatically restarts the container if it crashes or your computer restarts.
+- **Why it matters:** Helps keep your services running without manual intervention.
+- **Options:**
+  - `no`: Never restart automatically (default).
+  - `always`: Always restart.
+  - `on-failure`: Restart only on non-zero exit codes.
+  - `unless-stopped`: Restart unless you manually stop the container.
