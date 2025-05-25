@@ -460,7 +460,7 @@ We could **manually run both containers** and configure the **networking setting
 
 A better approach is to use a `docker-compose.yml` file. **Docker Compose simplifies container orchestration** and automatically creates a shared network so the Node.js app and Redis container can easily connect and communicate with each other.
 
-#### 📝 Docker Compose File Explanation (Beginner Friendly)
+### 📝 Docker Compose File Explanation (Beginner Friendly)
 
 This document explains each line of the following `docker-compose.yml` file:
 
@@ -477,42 +477,42 @@ services:
 
 ---
 
-#### 🧩 `services:`
+### 🧩 `services:`
 
 - **What it does:** Defines a group of services (containers) that will be managed by Docker Compose.
 - **Why it matters:** Each service represents a separate container in your app (like a database or web server).
 
-  #### 🗄️ `redis-server:`
+  #### 🗄️ `database-server:`
 
   - **What it does:** This is the name of the first service (Customizable).
   - **Why it matters:** You can use this name to refer to the service in networks or from other services (e.g., in environment variables).
 
-    #### 🐳 `image: redis`
+    ##### 🐳 `image: redis`
 
     - **What it does:** Tells Docker to use the official **Redis image** from Docker Hub.
     - **Why it matters:** This will pull and run a Redis server without needing a custom Dockerfile.
 
-  #### 🖥️ `node-app:`
+  #### 🖥️ `webapp-server:`
 
   - **What it does:** This is the name of the second service (Customizable).
   - **Why it matters:** This service will be your custom Node.js application.
 
-    #### 🏗️ `build: .`
+    ##### 🏗️ `build: .`
 
     - **What it does:** Tells Docker to build an image using the `Dockerfile` in the **current directory** (`.`).
     - **Why it matters:** Instead of using a prebuilt image, this builds one from your app's source code.
 
-    #### 🔌 `ports:`
+    ##### 🔌 `ports:`
 
     - **What it does:** Maps ports between your computer and the container.
     - **Why it matters:** This allows you to access the app running inside the container from your browser or other tools.
 
-    #### 🔢 `- "4001:8081"`
+    ##### 🔢 `- "4001:8081"`
 
     - **What it does:** Maps **port 4001** on your computer to **port 8081** in the container.
     - **Why it matters:** You can visit `http://localhost:4001` to access the app inside the container.
 
-    #### 🔄 `restart: always`
+    ##### 🔄 `restart: always`
 
     - **What it does:** Automatically restarts the container if it crashes or your computer restarts.
     - **Why it matters:** Helps keep your services running without manual intervention.
