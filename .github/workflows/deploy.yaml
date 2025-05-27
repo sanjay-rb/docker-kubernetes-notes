@@ -12,6 +12,6 @@ jobs:
       - run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
         working-directory: react-frontend
       - run: docker build -t sanjoke/react-frontend -f Dockerfile.dev .
-        working-directory: frontend
+        working-directory: react-frontend
       - run: docker run -e CI=true sanjoke/react-frontend npm run test
-        working-directory: frontend
+        working-directory: react-frontend
