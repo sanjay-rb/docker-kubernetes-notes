@@ -1,20 +1,20 @@
+version: "3"
 services:
-  react-app-dev:
+  web:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    volumes:
-      - /app/node_modules
-      - .:/app
     ports:
       - "3000:3000"
-  
-  # Not very ideal for testing, but can be used for quick checks
-  react-app-test:
+    volumes:
+      - /app/node_modules
+      - .:/app
+  tests:
+    stdin_open: true
     build:
       context: .
       dockerfile: Dockerfile.dev
     volumes:
       - /app/node_modules
       - .:/app
-    command: npm run test
+    command: ["npm", "run", "test"]
