@@ -3,6 +3,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - "react-frontend/**"
 
 jobs:
   build:
