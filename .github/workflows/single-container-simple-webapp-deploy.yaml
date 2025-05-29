@@ -4,7 +4,7 @@ on:
     branches:
       - main
     paths:
-      - "single-continer-simple-webapp/**"
+      - "single-container-simple-webapp/**"
 
 jobs:
   build:
@@ -12,24 +12,24 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-        working-directory: single-continer-simple-webapp
-      - run: docker build -t sanjoke/single-continer-simple-webapp -f Dockerfile.dev .
-        working-directory: single-continer-simple-webapp
-      - run: docker run -e CI=true sanjoke/single-continer-simple-webapp npm run test
-        working-directory: single-continer-simple-webapp
+        working-directory: single-container-simple-webapp
+      - run: docker build -t sanjoke/single-container-simple-webapp -f Dockerfile.dev .
+        working-directory: single-container-simple-webapp
+      - run: docker run -e CI=true sanjoke/single-container-simple-webapp npm run test
+        working-directory: single-container-simple-webapp
 
       - name: Generate deployment package
         run: zip -r deploy.zip . -x '*.git*'
-        working-directory: single-continer-simple-webapp
+        working-directory: single-container-simple-webapp
 
       - name: Deploy to EB
         uses: einaregilsson/beanstalk-deploy@v18
         with:
           aws_access_key: ${{ secrets.AWS_ACCESS_KEY }}
           aws_secret_key: ${{ secrets.AWS_SECRET_KEY }}
-          application_name: single-continer-simple-webapp
+          application_name: single-container-simple-webapp
           environment_name: React-frontend-env
           existing_bucket_name: elasticbeanstalk-us-east-1-162377439664
           region: us-east-1
           version_label: ${{ github.sha }}
-          deployment_package: single-continer-simple-webapp/deploy.zip
+          deployment_package: single-container-simple-webapp/deploy.zip
