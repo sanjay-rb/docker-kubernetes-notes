@@ -720,7 +720,7 @@ COPY --from=build /app/build /usr/share/nginx/html
 - The resulting image **only contains the production-ready static files and Nginx**, making it lightweight and secure.
 - React app is served at the Nginx default port `80`.
 
-## Other CLI Commands
+## Other CLI Commands & Documents
 
 ### `docker build -f Dockerfile.dev .`
 
