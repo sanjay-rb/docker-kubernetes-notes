@@ -927,3 +927,5 @@ You → NodeIP:31515 → Service (3050) → Pod (3000)
 ### 🏃‍♂️ `kubectl describe <object-type>(s)` or `kubectl describe <object-type> <object-name>`
 
 ### 🏃‍♂️ `kubectl delete -f <filename>`
+
+### 🏃‍♂️ `kubectl set image <object-type>/<object-name> <container-name-from-config>=<new-image-tag>`
