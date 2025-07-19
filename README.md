@@ -752,3 +752,40 @@ services:
     ports:
       - "3000:3000"
 ```
+
+# Introduction to Kubernetes
+
+Sure! Here's an expanded version of the document with more context and a simple example to better explain **WHAT** and **WHY**:
+
+---
+
+# Introduction to Kubernetes
+
+## WHAT?
+
+Kubernetes (often abbreviated as K8s) is an open-source system for automating the deployment, scaling, and management of containerized applications.
+
+It helps you run and coordinate many containers across a cluster of machines (physical or virtual), treating them as a single unit. Instead of running your containers manually on individual servers, Kubernetes allows you to define how your applications should run, and then manages the rest for you — including scheduling, scaling, networking, and failover.
+
+**Example:**
+Imagine you have an application with a frontend, backend, and database — each as a separate Docker container. Kubernetes lets you deploy all three across multiple servers, ensuring they run reliably and can communicate with each other. If the frontend crashes, Kubernetes automatically restarts it.
+
+## WHY?
+
+Running a few containers on a single machine is simple. But in a real-world application, you might need to:
+
+- Run hundreds of containers
+- Spread them across different machines
+- Ensure availability if something fails
+- Automatically scale up or down based on traffic
+- Perform updates without downtime
+
+Kubernetes handles all of this for you.
+
+**Example:**
+Suppose your e-commerce site experiences a traffic spike during a sale. Kubernetes can detect the increased load and automatically spin up more frontend containers to handle the traffic, and scale them down when it's over — without manual intervention.
+
+## minikube & kubectl
+
+kubectl - Use for managing **containers** in the VM (Node)
+minikube/docker-desktop-with-kubernetes - Use for managing the VM (Node) itself
