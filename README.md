@@ -801,9 +801,101 @@ minikube or Docker Desktop with Kubernetes – Used to manage the VM (Node) that
   - types: NodePort, ClusterIP, LoadBalancer, Ingress
     - NodePort - Exposes a container to the outside world (only dev not in prd)
 
-## selector and label mapping
+`client-pod.yml`
 
-TODO
+```yml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: client-pod
+  labels:
+    component: web
+spec:
+  containers:
+    - name: client
+      image: stephengrider/multi-client
+      ports:
+        - containerPort: 3000
+```
+
+`client-node-port-yml`
+
+```yml
+apiVersion: v1
+kind: Service
+metadata:
+  name: client-node-port
+spec:
+  type: NodePort
+  ports:
+    - port: 3050
+      targetPort: 3000
+      nodePort: 31515
+  selector:
+    component: web
+```
+
+## `selector` and `label` mapping
+
+### 🟢 `client-pod.yml`
+
+- **Label**: `component: web` ← 🔑 This is important
+
+---
+
+### 🌐 `client-node-port.yml`
+
+- 🔍 **Selector**: `component: web` ← 🔑 exact same key
+
+---
+
+### 💡 How They Work Together
+
+- The **Service** finds the **Pod** by matching the label `component: web`.
+- Then it forwards traffic from:
+
+  - `Node IP:31515` → to → `client-pod:3000`
+
+- So if you go to `http://<NodeIP>:31515`, you'll reach the client container running inside the pod.
+
+## `ports` mapping (type: NodePort)
+
+### 🌐 1. **NodePort** (External Port on the Node)
+
+- This is the **port on the physical/virtual machine** (Node) that accepts traffic from outside the cluster.
+- In your YAML:
+  `nodePort: 31515`
+- You can access it via:
+  `http://<NodeIP>:31515`
+
+---
+
+### 🚪 2. **Service Port**
+
+- This is the **internal port** that the Kubernetes **Service** listens on.
+- Other services inside the cluster would use this port.
+- In your YAML:
+  `port: 3050`
+
+> In a NodePort service, this port isn’t usually important for external traffic — it's more relevant for internal service-to-service communication.
+
+---
+
+### 🎯 3. **Target Port** (Inside the Pod)
+
+- This is the **port on the container** where your actual application is running.
+- In your YAML:
+  `targetPort: 3000`
+- That matches what's in your [client-pod.yml](simplek8s/client-pod.yml):
+  The container exposes `port: 3000`.
+
+---
+
+So traffic flows like:
+
+```
+You → NodeIP:31515 → Service (3050) → Pod (3000)
+```
 
 ## Apply Kubernetes Configurations
 
