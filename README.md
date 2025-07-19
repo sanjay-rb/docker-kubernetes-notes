@@ -755,12 +755,6 @@ services:
 
 # Introduction to Kubernetes
 
-Sure! Here's an expanded version of the document with more context and a simple example to better explain **WHAT** and **WHY**:
-
----
-
-# Introduction to Kubernetes
-
 ## WHAT?
 
 Kubernetes (often abbreviated as K8s) is an open-source system for automating the deployment, scaling, and management of containerized applications.
@@ -787,5 +781,30 @@ Suppose your e-commerce site experiences a traffic spike during a sale. Kubernet
 
 ## minikube & kubectl
 
-kubectl - Use for managing **containers** in the VM (Node)
-minikube/docker-desktop-with-kubernetes - Use for managing the VM (Node) itself
+kubectl – Used to manage containers and Kubernetes objects inside the VM (Node).
+
+minikube or Docker Desktop with Kubernetes – Used to manage the VM (Node) that runs the Kubernetes cluster.
+
+## Types of Object in k8s
+
+- Pod
+
+  - A Pod is the smallest unit in Kubernetes.
+  - It can contain one or more containers.
+  - If containers are tightly coupled (e.g., they must run together and share resources), group them in the same Pod.
+  - For all independent containers, create separate Pods.
+  - This is different from docker-compose, where multiple services can be defined together regardless of how tightly they are coupled.
+
+- Service
+
+  - Sets up networking in a k8s cluster
+  - types: NodePort, ClusterIP, LoadBalancer, Ingress
+    - NodePort - Exposes a container to the outside world (only dev not in prd)
+
+## selector and label mapping
+
+TODO
+
+## Apply Kubernetes Configurations
+
+### 🏃‍♂️ `kubectl apply -f <filename>`
