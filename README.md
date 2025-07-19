@@ -779,29 +779,26 @@ Kubernetes handles all of this for you.
 **Example:**
 Suppose your e-commerce site experiences a traffic spike during a sale. Kubernetes can detect the increased load and automatically spin up more frontend containers to handle the traffic, and scale them down when it's over — without manual intervention.
 
+## Key Terms & Points
+
+- Kubernetes is a system to deploy containterized apps
+- Kubernetes Cluster
+  - Worker Nodes are individual machines or vm's that run containers
+  - Master Node are machines. or vm's with a set of programs to manage nodes
+- Kubernetes didn't build our images - it got them from remote (docker hub)
+- Kubernetes's master decide where to run each container & each worker node can run any set or containers.
+- Kubernetes's get all informations via config file which will be picked by master to perform task.
+- Kubernetes's master works constantly to meet your desired state
+
 ## minikube & kubectl
 
 kubectl – Used to manage containers and Kubernetes objects inside the VM (Node).
 
 minikube or Docker Desktop with Kubernetes – Used to manage the VM (Node) that runs the Kubernetes cluster.
 
-## Types of Object in k8s
+## Example Config File
 
-- Pod
-
-  - A Pod is the smallest unit in Kubernetes.
-  - It can contain one or more containers.
-  - If containers are tightly coupled (e.g., they must run together and share resources), group them in the same Pod.
-  - For all independent containers, create separate Pods.
-  - This is different from docker-compose, where multiple services can be defined together regardless of how tightly they are coupled.
-
-- Service
-
-  - Sets up networking in a k8s cluster
-  - types: NodePort, ClusterIP, LoadBalancer, Ingress
-    - NodePort - Exposes a container to the outside world (only dev not in prd)
-
-`client-pod.yml`
+[client-pod.yml](simplek8s/client-pod.yml)
 
 ```yml
 apiVersion: v1
@@ -818,7 +815,7 @@ spec:
         - containerPort: 3000
 ```
 
-`client-node-port-yml`
+[client-node-port.yml](simplek8s/client-node-port.yml)
 
 ```yml
 apiVersion: v1
@@ -834,6 +831,28 @@ spec:
   selector:
     component: web
 ```
+
+## Types of Object in k8s
+
+- Pod
+
+  - A Pod is the smallest unit in Kubernetes.
+  - It can contain one or more containers.
+  - If containers are tightly coupled (e.g., they must run together and share resources), group them in the same Pod.
+  - For all independent containers, create separate Pods.
+  - This is different from docker-compose, where multiple services can be defined together regardless of how tightly they are coupled.
+  - Good for dev, but not for prod.
+
+- Service
+
+  - Sets up networking in a k8s cluster
+  - types: NodePort, ClusterIP, LoadBalancer, Ingress
+    - NodePort - Exposes a container to the outside world (only dev not in prd)
+
+- Deployment
+  - Runs a set of identical pods (one or more)
+  - Monitors the state of each pod, updating as necessary
+  - Good for dev and prod
 
 ## `selector` and `label` mapping
 
@@ -897,6 +916,14 @@ So traffic flows like:
 You → NodeIP:31515 → Service (3050) → Pod (3000)
 ```
 
-## Apply Kubernetes Configurations
+## Kubernetes CLI Commands
 
 ### 🏃‍♂️ `kubectl apply -f <filename>`
+
+> pod updates may not change fields other than `spec.containers[*].image`,`spec.initContainers[*].image`,`spec.activeDeadlineSeconds`,`spec.tolerations` (only additions to existing tolerations),`spec.terminationGracePeriodSeconds` (allow it to be set to 1 if it was previously negative)
+
+### 🏃‍♂️ `kubectl get <object-type>(s)` or `kubectl get <object-type> <object-name>`
+
+### 🏃‍♂️ `kubectl describe <object-type>(s)` or `kubectl describe <object-type> <object-name>`
+
+### 🏃‍♂️ `kubectl delete -f <filename>`
