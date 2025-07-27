@@ -13,7 +13,26 @@ spec:
         component: server
     spec:
       containers:
-        - name: client
+        - name: server
           image: stephengrider/multi-server
           ports:
             - containerPort: 5000
+          env:
+            - name: REDIS_HOST
+              value: redis-cluster-ip-service
+            - name: REDIS_PORT
+              value: "6379"
+            - name: PGHOST
+              value: postgres-cluster-ip-service
+            - name: PGPORT
+              value: "5432"
+            - name: PGDATABASE
+              value: postgres
+            - name: PGUSER
+              value: postgres
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-password-secret # Refers to a Kubernetes Secret that contains the PostgreSQL password.
+                  key: PGPASSWORD
+            

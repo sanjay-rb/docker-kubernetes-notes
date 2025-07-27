@@ -834,26 +834,54 @@ spec:
 
 ## Types of Object in k8s
 
-- Pod
+Here's your updated section with **Persistent Volume (PV)** and **Persistent Volume Claim (PVC)** added in a clean, consistent format:
 
-  - A Pod is the smallest unit in Kubernetes.
-  - It can contain one or more containers.
-  - If containers are tightly coupled (e.g., they must run together and share resources), group them in the same Pod.
-  - For all independent containers, create separate Pods.
-  - This is different from docker-compose, where multiple services can be defined together regardless of how tightly they are coupled.
-  - Good for dev, but not for prod.
+---
 
-- Service
+## Types of Object in k8s
 
-  - Sets up networking in a k8s cluster
-  - types: NodePort, ClusterIP, LoadBalancer, Ingress
-    - NodePort - Exposes a container to the outside world (only dev not in prd)
-    - ClusterIP – Default service type. Exposes the service internally within the cluster. Other services or pods can access it, but it’s not accessible from outside the cluster. Ideal for internal communication between microservices.
+* **Pod**
 
-- Deployment
-  - Runs a set of identical pods (one or more)
-  - Monitors the state of each pod, updating as necessary
-  - Good for dev and prod
+  * A Pod is the smallest unit in Kubernetes.
+  * It can contain one or more containers.
+  * If containers are tightly coupled (e.g., they must run together and share resources), group them in the same Pod.
+  * For all independent containers, create separate Pods.
+  * This is different from docker-compose, where multiple services can be defined together regardless of how tightly they are coupled.
+  * Good for dev, but not for prod.
+
+* **Service**
+
+  * Sets up networking in a k8s cluster
+  * Types: NodePort, ClusterIP, LoadBalancer, Ingress
+
+    * **NodePort** – Exposes a container to the outside world (only for dev, not for prod)
+    * **ClusterIP** – Default service type. Exposes the service internally within the cluster. Other services or pods can access it, but it’s not accessible from outside the cluster. Ideal for internal communication between microservices.
+
+* **Deployment**
+
+  * Runs a set of identical pods (one or more)
+  * Monitors the state of each pod, updating as necessary
+  * Good for dev and prod
+
+* **Persistent Volume Claim (PVC)**
+
+  * A request made by a pod (or user) for storage.
+  * Specifies size and access mode requirements.
+  * Kubernetes automatically binds a matching PV to the PVC.
+  * Pods use PVCs to access persistent storage, making data available even if pods are deleted or rescheduled.
+
+* **Secret**
+
+  * Used to store sensitive information like passwords, tokens, and SSH keys.
+  * Encoded in base64 but not encrypted by default (requires encryption at rest or an external secrets manager for full security).
+  * Can be mounted into pods as files or exposed as environment variables.
+  * Helps keep sensitive data separate from application code and configuration.
+  * Mostly we create Secret using CLI, as we dont want to store them as a plain text in config file.
+    
+    ```shell
+    # kubectl create secret (generic|docker-registry|tls) <secret-name> --from-literal <key>=<value>
+    kubectl create secret generic db-secret --from-literal username=XXXX --from-literal password=XXXX
+    ```
 
 ## `selector` and `label` mapping
 
@@ -934,6 +962,8 @@ You → NodeIP:31515 → Service (3050) → Pod (3000)
 ### 🏃‍♂️ `kubectl delete <object-type> <object-name>`
 
 ### 🏃‍♂️ `kubectl logs <pod-name>`
+
+### 🏃‍♂️ `kubectl get storageclass`
 
 ## Object File Combining 
 
