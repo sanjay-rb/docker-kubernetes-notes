@@ -848,6 +848,7 @@ spec:
   - Sets up networking in a k8s cluster
   - types: NodePort, ClusterIP, LoadBalancer, Ingress
     - NodePort - Exposes a container to the outside world (only dev not in prd)
+    - ClusterIP – Default service type. Exposes the service internally within the cluster. Other services or pods can access it, but it’s not accessible from outside the cluster. Ideal for internal communication between microservices.
 
 - Deployment
   - Runs a set of identical pods (one or more)
