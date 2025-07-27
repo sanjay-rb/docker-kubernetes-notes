@@ -1,51 +1,31 @@
+version: '3'
 services:
-  postgres:
-    image: "postgres:latest"
+  client:
+    image: 'rallycoding/multi-client'
+    mem_limit: 128m
+    hostname: client
+  server:
+    image: 'rallycoding/multi-server'
+    mem_limit: 128m
+    hostname: api
     environment:
-      - POSTGRES_PASSWORD=postgres_password
-  redis:
-    image: "redis:latest"
-  backend:
-    build:
-      context: ./server
-      dockerfile: Dockerfile.dev
-    volumes:
-      - /app/node_modules
-      - ./server:/app
-    environment:
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
-      - PGUSER=postgres
-      - PGHOST=postgres
-      - PGDATABASE=postgres
-      - PGPASSWORD=postgres_password
-      - PGPORT=5432
-  frontend:
-    build:
-      context: ./client
-      dockerfile: Dockerfile.dev
-    volumes:
-      - /app/node_modules
-      - ./client:/app
-    environment:
-      - WDS_SOCKET_PORT=0
+      - REDIS_HOST=$REDIS_HOST
+      - REDIS_PORT=$REDIS_PORT
+      - PGUSER=$PGUSER
+      - PGHOST=$PGHOST
+      - PGDATABASE=$PGDATABASE
+      - PGPASSWORD=$PGPASSWORD
+      - PGPORT=$PGPORT
   worker:
-    build:
-      context: ./worker
-      dockerfile: Dockerfile.dev
-    volumes:
-      - /app/node_modules
-      - ./worker:/app
+    image: 'rallycoding/multi-worker'
+    mem_limit: 128m
+    hostname: worker
     environment:
-      - REDIS_HOST=redis
-      - REDIS_PORT=6379
+      - REDIS_HOST=$REDIS_HOST
+      - REDIS_PORT=$REDIS_PORT
   nginx:
-    restart: always
-    build: 
-      context: ./nginx
-      dockerfile: Dockerfile.dev
+    image: 'rallycoding/multi-nginx'
+    mem_limit: 128m
+    hostname: nginx
     ports:
-      - "80:80"
-    depends_on:
-      - frontend
-      - backend
+      - '80:80'
