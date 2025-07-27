@@ -1014,9 +1014,77 @@ spec:
       targetPort: 3000
 ```
 
+Here's a documentation-style overview for **Skaffold**, tailored to your use case of local Kubernetes development with live reloading:
+
+---
+
+# Skaffold
+
+**Skaffold** is a command-line tool that automates the workflow for building, pushing, and deploying applications to Kubernetes — with real-time reloading, perfect for **local development**.
+
+It handles the tedious parts of the developer lifecycle so you can focus on writing code, not rebuilding and redeploying manually.
+
+---
+
+## ✨ Features
+
+* **File Sync + Live Reloading**
+  Automatically rebuilds images and redeploys when source code changes.
+
+* **Supports Multiple Build Tools**
+  Docker, Buildpacks, Bazel, Kaniko, custom scripts, and more.
+
+* **Flexible Deployment Options**
+  Works with `kubectl`, `helm`, `kustomize`, and others.
+
+* **Port Forwarding & Logs**
+  View container logs, and automatically port-forward services to localhost.
+
+* **Profiles**
+  Switch between dev, staging, prod environments easily.
+
+---
+
+## 🔧 Use Case
+
+> "A real-time reloader for Kubernetes local development."
+
+Skaffold watches your files, rebuilds your images, and redeploys to your dev cluster on every save. Ideal for rapid feedback when working with Kubernetes.
+
+---
+
+## 📁 Example `skaffold.yaml`
+
+```yaml
+apiVersion: skaffold/v4beta6
+kind: Config
+metadata:
+  name: my-app
+build:
+  artifacts:
+    - image: my-app
+      context: .
+      docker:
+        dockerfile: Dockerfile
+deploy:
+  kubectl:
+    manifests:
+      - k8s/*.yaml
+portForward:
+  - resourceType: service
+    resourceName: my-app
+    port: 8080
+    localPort: 8080
+```
+
+
 # Referance 
 
+- https://github.com/StephenGrider/DockerCasts
 - https://hub.docker.com/
 - https://github.com/kubernetes/ingress-nginx
 - https://www.joyfulbikeshedding.com/blog/2018-03-26-studying-the-kubernetes-ingress-system.html
 - https://kubernetes.github.io/ingress-nginx/deploy/
+- https://helm.sh/docs/intro/install/#from-script
+- https://kubernetes.github.io/ingress-nginx/deploy/#using-helm
+- https://skaffold.dev/docs/references/yaml/
