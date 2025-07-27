@@ -13,22 +13,21 @@ spec:
         component: postgres
     spec:
       volumes:
-        - name: postgres-storage # Defines a volume named postgres-storage that will be used to store PostgreSQL data.
+        - name: postgres-storage
           persistentVolumeClaim:
-            claimName: postgres-pvc # This links the volume to the PersistentVolumeClaim defined in postgres-pvc.yml.
+            claimName: database-persistent-volume-claim
       containers:
         - name: postgres
           image: postgres
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: postgres-storage
+              mountPath: /var/lib/postgresql/data
+              subPath: postgres
           env:
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
-                  name: postgres-password-secret # Refers to a Kubernetes Secret that contains the PostgreSQL password.
+                  name: postgres-password-secret
                   key: PGPASSWORD
-          ports:
-            - containerPort: 5432
-          volumeMounts:
-            - name: postgres-storage # Mounts the persistent volume claim to the container.
-              mountPath: /var/lib/postgresql/data # This is the default directory where PostgreSQL stores its data.
-              subPath: postgres-data # subPath allows you to specify a directory within the volume to mount, useful for organizing data.
-      

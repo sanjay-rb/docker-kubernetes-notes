@@ -856,6 +856,17 @@ Here's your updated section with **Persistent Volume (PV)** and **Persistent Vol
 
     * **NodePort** – Exposes a container to the outside world (only for dev, not for prod)
     * **ClusterIP** – Default service type. Exposes the service internally within the cluster. Other services or pods can access it, but it’s not accessible from outside the cluster. Ideal for internal communication between microservices.
+    * **LoadBalancer** - (Legacy) Provisions an external load balancer (via the cloud provider) and assigns a public IP to expose the service outside the cluster. Commonly used in production for exposing services to the internet. Automatically routes traffic to backend pods.
+    * **Ingress** - (Advance) A more advanced and flexible way to expose HTTP/HTTPS services. Instead of creating a LoadBalancer per service, Ingress uses a single entry point (usually backed by a LoadBalancer) to route traffic based on paths or hostnames to multiple services. Ideal for managing multiple services behind a single public IP with routing rules.
+
+    | LoadBalancer           | Ingress                  |
+    | ---------------------- | ------------------------ |
+    | One per service        | One for many services    |
+    | Higher cloud cost      | Cost-efficient           |
+    | Simple to set up       | More setup, but flexible |
+    | No routing logic       | Supports routing rules   |
+    | Works for any protocol | Best for HTTP/S traffic  |
+
 
 * **Deployment**
 
@@ -1002,3 +1013,10 @@ spec:
     - port: 3000
       targetPort: 3000
 ```
+
+# Referance 
+
+- https://hub.docker.com/
+- https://github.com/kubernetes/ingress-nginx
+- https://www.joyfulbikeshedding.com/blog/2018-03-26-studying-the-kubernetes-ingress-system.html
+- https://kubernetes.github.io/ingress-nginx/deploy/
