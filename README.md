@@ -919,7 +919,7 @@ You → NodeIP:31515 → Service (3050) → Pod (3000)
 
 ## Kubernetes CLI Commands
 
-### 🏃‍♂️ `kubectl apply -f <filename>`
+### 🏃‍♂️ `kubectl apply -f <filename>/<folder>`
 
 > pod updates may not change fields other than `spec.containers[*].image`,`spec.initContainers[*].image`,`spec.activeDeadlineSeconds`,`spec.tolerations` (only additions to existing tolerations),`spec.terminationGracePeriodSeconds` (allow it to be set to 1 if it was previously negative)
 
@@ -930,3 +930,45 @@ You → NodeIP:31515 → Service (3050) → Pod (3000)
 ### 🏃‍♂️ `kubectl delete -f <filename>`
 
 ### 🏃‍♂️ `kubectl set image <object-type>/<object-name> <container-name-from-config>=<new-image-tag>`
+
+### 🏃‍♂️ `kubectl delete <object-type> <object-name>`
+
+### 🏃‍♂️ `kubectl logs <pod-name>`
+
+## Object File Combining 
+
+```yml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      component: web
+  template:
+    metadata:
+      labels:
+        component: web
+    spec:
+      containers:
+        - name: client
+          image: stephengrider/multi-client
+          ports:
+            - containerPort: 3000
+
+--- # Just by spliting the configuration by ---, we can have all object config in single file
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: client-cluster-ip-service
+spec:
+  type: ClusterIP
+  selector:
+    component: web
+  ports:
+    - port: 3000
+      targetPort: 3000
+```
